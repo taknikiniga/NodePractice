@@ -41,22 +41,23 @@ app.get('/registerUser', async (req, res) =>{
 })
 
 //Get User By Id
-app.get('/registerUser/:id', async (req, res) =>{
+app.get('/registerUser/:userFullname', async (req, res) =>{
 
     try {
 
-        let userId = req.params.id
-        const user = await RegisterUser.findById(userId)
+        let username = req.params.userFullname
+        const user = await RegisterUser.findOne({userFullname:username})
         console.log(user);
         if(!user){
-            return res.status(404).send()
+            return res.status(404).send(user)
         }else{
-            return res.send(user)
+            console.log(user);
+            return res.status(200).send(user)
         }
        // res.send(user)
         
     } catch (error) {
-        res.send(error)
+        res.status(505).send(error)
     }
 })
 
